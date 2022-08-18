@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 
 import axios from 'axios';
 import dayjs from 'dayjs'
@@ -53,7 +52,6 @@ function Course(props) {
     
     // Store the backend resposne on the state
     const [response, setResponse] = useState();
-    const { getAccessTokenSilently } = useAuth0();
 
     return (
         <div>
@@ -67,7 +65,7 @@ function Course(props) {
             }
 
             <form onSubmit={form.onSubmit((values) => {
-                submitForm(props, values, getAccessTokenSilently, setResponse);
+                submitForm(props, values, setResponse);
                 form.reset();
             })}>
                 {course != null && <Title>{course.name}</Title>}
@@ -116,7 +114,7 @@ function Course(props) {
     );
 }
 
-async function submitForm(props, formValues, getAccessTokenSilently, setResponse) {
+async function submitForm(props, formValues, setResponse) {
     
     /*
     When the form is submitted, just submit the min/max times and date and let the
@@ -137,14 +135,6 @@ async function submitForm(props, formValues, getAccessTokenSilently, setResponse
     const minTime = fixTimeOnDate(dayjs(formValues.minTime));
     const maxTime = fixTimeOnDate(dayjs(formValues.maxTime));
 
-    const token = await getAccessTokenSilently();
-
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-
     axios.post('scheduleChronogolf', {
         userId: 'lference',
         clubId: props.id,
@@ -154,7 +144,7 @@ async function submitForm(props, formValues, getAccessTokenSilently, setResponse
         earliestTime: minTime.toJSON(),
         latestTime: maxTime.toJSON(),
         checkout: false
-    }, config)
+    })
     .catch(err => {
         setResponse({
             isSuccess: false,

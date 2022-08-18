@@ -11,6 +11,10 @@ COPY package*.json ./
 
 RUN npm install --silent
 
+RUN mkdir -p node_modules/.cache
+RUN chown node:node node_modules/.cache
+USER node
+
 # copy local files to app folder
 COPY . .
 

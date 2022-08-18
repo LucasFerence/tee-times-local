@@ -7,8 +7,8 @@ services:
     build:
       context: ./server-ts
       dockerfile: Dockerfile
-    image: tee-times-web-server-ts
-    container_name: tee-times-web-server-ts
+    image: tee-times-local-server-ts
+    container_name: tee-times-local-server-ts
     restart: always
     command: node build/src/index.js
     volumes:
@@ -22,8 +22,8 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: tee-time-web-client
-    container_name: tee-times-web-client
+    image: tee-time-local-client
+    container_name: tee-times-local-client
     command: npm start
     volumes:
       - ./client/:/usr/src/app
@@ -32,7 +32,7 @@ services:
       - "3000:3000"
   mongo:
     image: mongo:latest
-    container_name: mongo
+    container_name: mongo-local
     restart: always
     ports:
       - "27017:27017"
@@ -49,7 +49,7 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
   selenium-hub:
     image: selenium/hub:4.3.0-20220726
-    container_name: selenium-hub
+    container_name: selenium-hub-local
     ports:
       - "4442:4442"
       - "4443:4443"

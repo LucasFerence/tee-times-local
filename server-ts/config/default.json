@@ -2,7 +2,7 @@
     "root": {
 
         "db": {
-            "host": "mongo",
+            "host": "mongo-local",
             "port": 27017,
             "db": "teetimes",
             "username": "root",
