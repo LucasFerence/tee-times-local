@@ -143,7 +143,7 @@ async function submitForm(props, formValues, setResponse) {
         playerCount: numPlayers,
         earliestTime: minTime.toJSON(),
         latestTime: maxTime.toJSON(),
-        checkout: false
+        checkout: true
     })
     .catch(err => {
         setResponse({

@@ -10,7 +10,6 @@ services:
     image: tee-times-local-server-ts
     container_name: tee-times-local-server-ts
     restart: always
-    command: node build/src/index.js
     volumes:
       - ./server-ts/:/usr/src/app
       - /usr/src/app/node_modules
