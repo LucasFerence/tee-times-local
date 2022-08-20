@@ -3,7 +3,7 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs'
 
-import { Button, Select, Title, useMantineTheme, Alert } from '@mantine/core';
+import { Button, Select, Title, useMantineTheme, Alert, TextInput } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 
@@ -24,6 +24,7 @@ function Course(props) {
     const form = useForm({
 
         initialValues: {
+            username: 'lference',
             numPlayers: '4',
             teeTimeDate: null,
             minTime: null,
@@ -31,6 +32,7 @@ function Course(props) {
         },
 
         validate: {
+            username: (value) => (value === null ? 'Must define user!' : null),
             teeTimeDate: (value) => (value == null ? 'Must select tee time date' : null),
             minTime: (value) => (value == null ? 'Must select minimum time' : null),
             maxTime: (value) => (value == null ? 'Must select maxium time' : null)
@@ -73,6 +75,12 @@ function Course(props) {
                 <div>
                     IMPORTANT: Any days highlighted in green will be executed upon immediately
                 </div>
+
+                <TextInput
+                    label="Username"
+                    required
+                    {...form.getInputProps('username')}
+                />
 
                 <Select
                     label="Number of players"
@@ -135,8 +143,10 @@ async function submitForm(props, formValues, setResponse) {
     const minTime = fixTimeOnDate(dayjs(formValues.minTime));
     const maxTime = fixTimeOnDate(dayjs(formValues.maxTime));
 
+    console.log(formValues.username)
+
     axios.post('scheduleChronogolf', {
-        userId: 'lference',
+        userId: formValues.username,
         clubId: props.id,
         courseId: props.selectedCourse,
         date: teeTimeDate.toJSON(),
